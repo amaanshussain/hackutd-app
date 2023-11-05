@@ -75,7 +75,13 @@ function App() {
                                             <Button variant="contained" color="warning" onClickCapture={() => {
                                                 PredictLeaks().then(response => {
                                                     setPrediction(response)
-                                                    console.log(response)
+
+                                                    const element = document.createElement("a");
+                                                    const file = new Blob([response.report], { type: 'text/plain' });
+                                                    element.href = URL.createObjectURL(file);
+                                                    element.download = "teamh4.txt";
+                                                    document.body.appendChild(element);
+                                                    element.click();
                                                 })
                                             }}>
                                                 Generate Report
@@ -85,7 +91,9 @@ function App() {
                                     <Button variant="contained" startIcon={<i class="ph ph-plus" style={{ color: "#FFF", fontSize: 20, fontWeight: 500 }} />} onClickCapture={() => setImportModal(true)}>Import Data</Button>
 
                                     <Box sx={{ bottom: Object.keys(prediction).length !== 0 ? 0 : -500, transition: "1s", position: "absolute", width: "100%", gap: 2, display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "#FFF", boxShadow: 4, borderRadius: "16px 16px 0px 0px" }}>
-                                        <IconButton onClickCapture={() => setPrediction({})}>
+                                        <IconButton onClickCapture={() => {
+                                            setPrediction({})
+                                        }}>
                                             <i class="ph ph-x" style={{ color: "#000", fontSize: 20, fontWeight: 500 }} />
                                         </IconButton>
                                         <Typography>Report</Typography>
